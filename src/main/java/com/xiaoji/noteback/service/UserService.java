@@ -14,4 +14,13 @@ public class UserService {
     public User getUserByUsername(String username){
         return userDAO.findByUsername(username);
     }
+
+    public boolean isExist(String username){
+        User user = getUserByUsername(username);
+        return user!=null;
+    }
+
+    public void addUser(User user){
+        userDAO.save(user);
+    }
 }
