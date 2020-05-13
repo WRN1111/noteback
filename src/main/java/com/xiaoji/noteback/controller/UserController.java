@@ -2,6 +2,7 @@ package com.xiaoji.noteback.controller;
 
 
 import com.xiaoji.noteback.pojo.User;
+import com.xiaoji.noteback.response.Response;
 import com.xiaoji.noteback.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -49,16 +50,16 @@ public class UserController {
     @CrossOrigin
     @PostMapping("api/login")
     @ResponseBody
-    public String login(@RequestBody User user) {
+    public Response login(@RequestBody User user) {
         String username = user.getUsername();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, user.getPassword());
 
         try {
             subject.login(usernamePasswordToken);
-            return "ok";
+            return new Response(200,"success",usernamePasswordToken);
         } catch (AuthenticationException e) {
-            return "error";
+            return new Response(500,"failure",null);
         }
     }
 }
